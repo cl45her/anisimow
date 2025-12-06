@@ -157,7 +157,7 @@ public:
     Matrix(unsigned r, unsigned c, T v = T{}) {
         cols_ = c;
         rows_ = r;
-
+        // Можно внутри класса subvector сделать конструктор по заданному значению на заданную длину, чтобы использовать нативные методы класса
         data.resize(r * c);
         for (unsigned i = 0; i < r * c; ++i)
             data[i] = v;
@@ -169,7 +169,7 @@ public:
             r(i, i) = T{1};
         return r;
     }
-
+// Функция работает не корректно
     static Matrix getSpecificDeterminant(unsigned n, T detv) {
         Matrix M = Identity(n);
 
@@ -223,7 +223,7 @@ public:
     }
 };
 
-
+// Для матрицы с n=100 эта функция будет работать чуть дольше, чем примерное время существования нашей вселенной
 template<typename T>
 T determinant(const Matrix<T>& m) {
 
