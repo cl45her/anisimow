@@ -46,7 +46,7 @@ public:
         }
         return *this;
     }
-
+// Тут есть тот же самый код, что и в resize. нужно здесь его переиспользовать, чтобы не плодить ошибки типа "тут исправил -- там забыл".
     bool push_back(const T& d) {
         if (top >= capacity) {
             unsigned int new_capacity = (capacity == 0) ? 1 : capacity * 2;
@@ -98,6 +98,7 @@ public:
         return true;
     }
 
+// Аналогично комментарию про push_back: shrink_to_fit -- это же просто resize(top);
     void shrink_to_fit() {
         if (top == capacity) {
             return;
