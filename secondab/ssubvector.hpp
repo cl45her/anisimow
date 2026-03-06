@@ -1,3 +1,5 @@
+#pragma once
+
 template<typename T>
 class subvector {
 private:
@@ -50,14 +52,11 @@ public:
     bool push_back(const T& d) {
         if (top >= capacity) {
             unsigned int new_capacity = (capacity == 0) ? 1 : capacity * 2;
-
             T *new_mas = new T[new_capacity];
             for (unsigned int i = 0; i < top; i++) {
                 new_mas[i] = mas[i];
             }
-            
             delete[] mas;
-
             mas = new_mas;
             capacity = new_capacity;
         }
@@ -67,64 +66,40 @@ public:
     }
 
     T pop_back() {
-        if (top == 0) {
-            return T();
-        }
+        if (top == 0) return T();
         top--;
         return mas[top];
     }
 
     bool resize(unsigned int new_capacity) {
-        if (new_capacity == capacity) {
-            return true;
-        }
+        if (new_capacity == capacity) return true;
         T *new_mas = new T[new_capacity];
-
-        unsigned int elements_to_copy = top;
-        if (new_capacity < top) {
-            elements_to_copy = new_capacity;
-        }
-        
+        unsigned int elements_to_copy = (new_capacity < top) ? new_capacity : top;
         for (unsigned int i = 0; i < elements_to_copy; i++) {
             new_mas[i] = mas[i];
         }
-
         delete[] mas;
-
         mas = new_mas;
         capacity = new_capacity;
         top = elements_to_copy;
-        
         return true;
     }
 
     void shrink_to_fit() {
-        if (top == capacity) {
-            return;
-        }
-        
+        if (top == capacity) return;
         if (top == 0) {
             delete[] mas;
             mas = nullptr;
             capacity = 0;
         } else {
             T *new_mas = new T[top];
-
-            for (unsigned int i = 0; i < top; i++) {
-                new_mas[i] = mas[i];
-            }
+            for (unsigned int i = 0; i < top; i++) new_mas[i] = mas[i];
             delete[] mas;
-
             mas = new_mas;
             capacity = top;
         }
     }
 
-    void clear() {
-        top = 0;
-    }
-
-    ~subvector() {
-        delete[] mas;
-    }
+    void clear() { top = 0; }
+    ~subvector() { delete[] mas; }
 };

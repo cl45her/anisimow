@@ -1,15 +1,13 @@
+#include "sort.h"
 #include <iostream>
 #include <chrono>
 #include <random>
-#include <vector>
-
 
 void swap_manual(int &a, int &b) {
     int temp = a;
     a = b;
     b = temp;
 }
-
 
 void heapify(int* array, int n, int i) {
     int largest = i;
@@ -37,7 +35,6 @@ void heap_sort(int n, int* array) {
         heapify(array, i, 0);
     }
 }
-
 
 void merge(int* array, int left, int mid, int right) {
     int n1 = mid - left + 1;
@@ -93,7 +90,6 @@ void merge_sort(int n, int* array) {
     merge_sort_recursive(array, 0, n - 1);
 }
 
-
 int* generate_random_array(int n) {
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -106,7 +102,6 @@ int* generate_random_array(int n) {
     return arr;
 }
 
-
 int* copy_array(const int* source, int n) {
     int* copy = new int[n];
     for (int i = 0; i < n; i++) {
@@ -114,7 +109,6 @@ int* copy_array(const int* source, int n) {
     }
     return copy;
 }
-
 
 bool is_sorted(const int* array, int n) {
     for (int i = 0; i < n - 1; i++) {
@@ -125,10 +119,8 @@ bool is_sorted(const int* array, int n) {
     return true;
 }
 
-
 void test_correctness() {
     std::cout << "Тестирование корректности сортировок..." << std::endl;
-    
     int test_sizes[] = {10, 50, 100};
     
     for (int n : test_sizes) {
@@ -149,7 +141,6 @@ void test_correctness() {
     }
 }
 
-
 void test_performance() {
     std::vector<int> sizes = {100, 500, 1000, 2000, 5000, 10000, 20000, 50000};
     std::vector<long long> heap_times;
@@ -161,7 +152,6 @@ void test_performance() {
     for (int n : sizes) {
         int* original = generate_random_array(n);
         
-        
         int* arr1 = copy_array(original, n);
         auto start = std::chrono::high_resolution_clock::now();
         heap_sort(n, arr1);
@@ -169,7 +159,6 @@ void test_performance() {
         long long heap_time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
         heap_times.push_back(heap_time);
         delete[] arr1;
-        
         
         int* arr2 = copy_array(original, n);
         start = std::chrono::high_resolution_clock::now();
@@ -180,31 +169,14 @@ void test_performance() {
         delete[] arr2;
         
         delete[] original;
-        
         std::cout << n << "\t\t" << heap_time << "\t\t" << merge_time << std::endl;
     }
-    
-    std::cout << "\nДанные для построения графика:" << std::endl;
-    std::cout << "Размеры: ";
-    for (int n : sizes) std::cout << n << " ";
-    std::cout << std::endl;
-    
-    std::cout << "Heap Sort: ";
-    for (long long time : heap_times) std::cout << time << ", ";
-    std::cout << std::endl;
-    
-    std::cout << "Merge Sort: ";
-    for (long long time : merge_times) std::cout << time << ", ";
-    std::cout << std::endl;
 }
-
 
 int main() {
     std::cout << "=== ТЕСТИРОВАНИЕ КОРРЕКТНОСТИ ===" << std::endl;
     test_correctness();
-    
     std::cout << "\n=== ТЕСТИРОВАНИЕ ПРОИЗВОДИТЕЛЬНОСТИ ===" << std::endl;
     test_performance();
-    
     return 0;
 }

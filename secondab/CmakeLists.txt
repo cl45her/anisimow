@@ -1,0 +1,21 @@
+cmake_minimum_required(VERSION 3.10)
+project(VectorMatrixLab)
+
+set(CMAKE_CXX_STANDARD 17)
+
+# Исполняемый файл для Си-стиля (nedovector)
+add_executable(nedovector_demo nedovector.cpp subvector_c.h)
+
+# Исполняемый файл для шаблона Subvector
+# (т.к. ssubvector.cpp почти пуст, можно просто добавить его в проект)
+add_executable(ssubvector_demo ssubvector.cpp ssubvector.h)
+
+# Исполняемый файл для Матриц
+add_executable(matrix_demo matrix.cpp matrix.h)
+
+# Добавляем флаги предупреждений
+if(MSVC)
+    target_compile_options(matrix_demo PRIVATE /W4)
+else()
+    target_compile_options(matrix_demo PRIVATE -Wall -Wextra)
+endif()
